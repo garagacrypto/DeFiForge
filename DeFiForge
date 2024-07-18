@@ -1,0 +1,27 @@
+# scripts/smart_contract_interaction.py
+
+from web3 import Web3
+
+# Connect to Ethereum node
+w3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID'))
+
+def interact_with_contract(contract_address, abi, function_name, *args):
+    """
+    Interact with a smart contract function.
+    
+    :param contract_address: Address of the smart contract
+    :param abi: ABI of the smart contract
+    :param function_name: Function name to call
+    :param args: Arguments to pass to the function
+    :return: Result of the function call
+    """
+    contract = w3.eth.contract(address=contract_address, abi=abi)
+    function = getattr(contract.functions, function_name)
+    result = function(*args).call()
+    return result
+
+# Example usage:
+# contract_address = '0xContractAddress'
+# abi = [...]  # Contract ABI
+# result = interact_with_contract(contract_address, abi, 'getYield', 'parameter')
+# print(result)
